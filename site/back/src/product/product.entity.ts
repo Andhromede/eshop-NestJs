@@ -81,9 +81,8 @@ export class Product {
 
     // -------------- Relations --------------
 
-    // @ManyToOne(() => ProductCategory, (productCategory) => productCategory.category, { eager: true, cascade: true })
-    @ManyToOne(() => ProductCategory, (productCategory) => productCategory.category, { eager: true })
-    @JoinColumn({ name: 'productCategoryId' })
+    @ManyToOne(() => ProductCategory, productCategory => productCategory.category )
+    // @ManyToOne(() => ProductCategory, productCategory => productCategory.category, { eager: true })
     productCategory: ProductCategory;
 
     // @ManyToOne(() => ProductPromotion, (productPromotion) => productPromotion.products, { eager: true, cascade: true })

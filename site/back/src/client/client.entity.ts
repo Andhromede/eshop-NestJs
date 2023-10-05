@@ -1,6 +1,23 @@
 // Library Imports
-import { JoinColumn, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, Index } from 'typeorm';
-import { IsBoolean, IsString, Matches, IsDefined, IsEmail, Length } from 'class-validator';
+import { 
+    JoinColumn, 
+    Entity, 
+    PrimaryGeneratedColumn, 
+    Column, 
+    ManyToOne, 
+    OneToMany, 
+    Index 
+} from 'typeorm';
+
+import {
+    IsBoolean,
+    IsString,
+    Matches,
+    IsDefined,
+    IsEmail,
+    Length
+} from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 // Local Imports
 import { Order } from "../order/order.entity";
@@ -37,7 +54,7 @@ export class Client {
 
     // EMAIL
     @Index()
-    @Column({ length: 100, unique: true, nullable: false })
+    @Column({ length: 100, unique: true, nullable: true })
     @Length(5, 100)
     @IsDefined()
     @IsEmail({}, { message: 'L\'adresse email n\'est pas valide' })
@@ -45,10 +62,11 @@ export class Client {
 
     // PASSWORD
     @Column({ length: 255, nullable: false })
+    @Exclude()
     @Length(5, 255)
     @IsDefined()
     @Matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.])[A-Za-z\d@$!%*?&#]{8,}$/,
         { message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial, et doit avoir une longueur minimale de 8 caractères' }
         // /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{5,}$/,
         // { message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, et doit avoir une longueur minimale de 5 caractères' }
@@ -56,14 +74,14 @@ export class Client {
     password: string;
 
     // FIRST NAME
-    @Column({ length: 50 })
+    @Column({ length: 50, nullable: true })
     @Length(3, 50)
     @IsString()
     @Matches(/^[a-zA-Z]+$/, { message: 'Le prénom ne doit contenir que des lettres', })
     firstName: string;
 
     // LAST NAME
-    @Column({ length: 50 })
+    @Column({ length: 50, nullable: true })
     @Length(3, 50)
     @IsString()
     @Matches(/^[a-zA-Z]+$/, { message: 'Le nom ne doit contenir que des lettres', })

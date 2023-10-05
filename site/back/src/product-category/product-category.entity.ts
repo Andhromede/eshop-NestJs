@@ -27,7 +27,6 @@ export class ProductCategory {
     // @IsDefined({ message: 'La catégorie est requise.' })
     category: Category;
 
-    @OneToMany(() => Product, (product) => product.productCategory)
-    // @IsDefined({ message: 'Les produits sont requis.' })
-    products: Product[]
+    @OneToMany(() => Product, product => product.productCategory)
+    products: Product[];
 }
